@@ -14,11 +14,23 @@ private:
 public:
 	glm::vec2 playerPosition;
 	vector<glm::vec2> zombiePosition;
+	int getNumHumans() const {
+		return numHumans;
+	}
+	int getWidth() const {
+		return levelData[1].size();
+	}
+	int getHeight() const {
+		return levelData.size();
+	}
 	glm::vec2 getPlayerPosition() const {
 		return playerPosition;
 	}
 	std::vector<glm::vec2> getZombiesPosition()const {
 		return zombiePosition;
+	}
+	const std::vector<std::string>& getLevelData() {
+		return levelData;
 	}
 	Level(const std::string& fileName);
 	void draw();

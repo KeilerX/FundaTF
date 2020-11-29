@@ -14,6 +14,8 @@ Level::Level(const std::string& fileName)
 	}
 	std::string tmp;
 	file >> tmp >> numHumans;
+
+	std::getline(file, tmp);
 	while (std::getline(file, tmp)) {
 		levelData.push_back(tmp);
 	}
@@ -52,10 +54,18 @@ void Level::parseLevel()
 					ResourceManager::getTexture("Textures/light_bricks.png").id, 0.0f, color);
 				break;
 			case '@':
+				levelData[y][x] = '.';
 				playerPosition.x = x * TILE_WIDTH;
 				playerPosition.y = y * TILE_WIDTH;
 				break;
 			case 'Z':
+			{
+				levelData[y][x] = '.';
+				glm::vec2 myZombiePosition = glm::vec2(0, 0);
+				myZombiePosition.x = x * TILE_WIDTH;
+				myZombiePosition.y = y * TILE_WIDTH;
+				zombiePosition.push_back(myZombiePosition);
+			}
 				break;
 			case '.':
 				break;
