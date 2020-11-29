@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ResourceManager.h"
 #include "PapuEngine.h"
+#include "SoundManager.h"
 #include <random>
 #include <ctime>
 
@@ -44,6 +45,7 @@ void MainGame::initLevel() {
 		glm::vec2 pos(randPosX(randomEngine) * TILE_WIDTH, randPosY(randomEngine) * TILE_WIDTH);
 		_humans[i]->init(1.0f, pos);
 	}
+	_soundManager->getInstance();
 	_spriteBacth.init();
 }
 
@@ -167,7 +169,9 @@ void MainGame::update() {
 					myNewZombie->init(1.3f, _humans[i]->getPosition());
 					_zombies.push_back(myNewZombie);
 					_humans.erase(_humans.begin() + i);
+					_soundManager->playMusic("Sounds/zombie.wav");
 				}
+				//_soundManager->stopMusic();
 			}
 		}
 		_camera.setPosition(_player->getPosition());

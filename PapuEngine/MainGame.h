@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Zombie.h"
 #include "Human.h"
+#include "SoundManager.h"
 
 enum class GameState
 {
@@ -38,6 +39,7 @@ private:
 	Camera2D _camera;
 	SpriteBacth _spriteBacth;
 	InputManager _inputManager;
+	SoundManager* _soundManager;
 	void initLevel();
 	
 public:
