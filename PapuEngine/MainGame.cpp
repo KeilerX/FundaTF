@@ -46,6 +46,7 @@ void MainGame::initLevel() {
 		_humans[i]->init(1.0f, pos);
 	}
 	_soundManager->getInstance();
+	_soundManager->playMusic("Sounds/background.wav");
 	_spriteBacth.init();
 }
 
@@ -122,19 +123,6 @@ void MainGame::procesInput() {
 				_inputManager.releaseKey(event.button.button);
 				break;
 		}
-
-		/*if (_inputManager.isKeyPressed(SDLK_w)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(0.0, CAMERA_SPEED));
-		}
-		if (_inputManager.isKeyPressed(SDLK_s)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(0.0, -CAMERA_SPEED));
-		}
-		if (_inputManager.isKeyPressed(SDLK_a)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0));
-		}
-		if (_inputManager.isKeyPressed(SDLK_d)) {
-			_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0));
-		} */
 		if (_inputManager.isKeyPressed(SDLK_q)) {
 			_camera.setScale(_camera.getScale() + SCALE_SPEED);
 		}
@@ -169,9 +157,8 @@ void MainGame::update() {
 					myNewZombie->init(1.3f, _humans[i]->getPosition());
 					_zombies.push_back(myNewZombie);
 					_humans.erase(_humans.begin() + i);
-					_soundManager->playMusic("Sounds/zombie.wav");
+					_soundManager->playFX("Sounds/zombie.OGG");
 				}
-				//_soundManager->stopMusic();
 			}
 		}
 		_camera.setPosition(_player->getPosition());
@@ -191,4 +178,5 @@ MainGame::MainGame():
 
 MainGame::~MainGame()
 {
+	_soundManager->stopMusic();
 }

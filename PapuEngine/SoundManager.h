@@ -3,20 +3,22 @@
 #include <SDL/SDL_mixer.h>
 #include <string>
 #include <iostream>
+#include <vector>
+#include <map>
+
+enum class AudioState
+{
+    ERROR = 0,
+    WAITING,
+    PAUSED,
+    STOPPED,
+    PLAYING
+};
 
 class SoundManager
 {
 private:
     static SoundManager* instance;
-
-    enum AudioState
-    {
-        ERROR = 0,
-        WAITING,
-        PAUSED,
-        STOPPED,
-        PLAYING
-    };
     static AudioState currentState;
 
     static void initAudioDevice()
@@ -26,22 +28,21 @@ private:
             if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
             {
                 std::cerr << "Error initializing audio device...\n";
-                currentState = ERROR;
+                currentState = AudioState::ERROR;
             }
             else
             {
-                currentState = WAITING;
+                currentState = AudioState::WAITING;
             }
         }
         else
         {
             std::cerr << "Error initializing SDL audio subsystem...\n";
-            currentState = ERROR;
+            currentState = AudioState::ERROR;
         }
     }
 
-    // All of these are private due to the Singleton pattern
-
+     //All of these are private due to the Singleton pattern
     SoundManager()
     {
     }
@@ -53,7 +54,7 @@ private:
     SoundManager& operator=(const SoundManager&)
     {
     }
-
+    
     ~SoundManager()
     {
         Mix_CloseAudio();
@@ -64,35 +65,34 @@ public:
     {
         if (instance == 0)
         {
-            std::cout << "Instance";
             instance = new SoundManager;
             SoundManager::initAudioDevice();
         }
         return instance;
     }
 
-    void playMusic(const std::string& fileName);
+    void playMusic(const std::string& filePath);
     void pauseMusic();
     void stopMusic();
-    void playFX(const std::string& fileName) const;
+    void playFX(const std::string& filePath) const;
 
     inline bool isPaused() const
     {
-        return currentState == PAUSED;
+        return currentState == AudioState::PAUSED;
     }
-
+    
     inline bool isStopped() const
     {
-        return currentState == STOPPED;
+        return currentState == AudioState::STOPPED;
     }
-
+    
     inline bool isPlaying() const
     {
-        return currentState == PLAYING;
+        return currentState == AudioState::PLAYING;
     }
-
+    
     inline bool inErrorState() const
     {
-        return currentState == ERROR;
+        return currentState == AudioState::ERROR;
     }
 };
