@@ -157,7 +157,8 @@ void MainGame::update() {
 					myNewZombie->init(1.3f, _humans[i]->getPosition());
 					_zombies.push_back(myNewZombie);
 					_humans.erase(_humans.begin() + i);
-					_soundManager->playFX("Sounds/zombie.OGG");
+					Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+					_soundManager->playFX("Sounds/zombie.wav");
 				}
 			}
 		}
